@@ -21,6 +21,7 @@ def chat(text, messages):
 @bot.message_handler(content_types=["text"])
 def handle_text(user_input):
     chat_id = user_input.chat.id
+    bot.send_chat_action(chat_id, "typing")
     if chat_id not in chats.keys():
         chats[chat_id] = [
             {"role": "system", "content": "Hello"},
@@ -28,7 +29,7 @@ def handle_text(user_input):
     response = chat(user_input.text, chats[chat_id])
     result = response.choices[0]['message']
     chats[chat_id].append(result)
-    bot.send_message(user_input.chat.id, result['content'])
+    bot.send_message(user_input.chat.id, result['content'], parse_mode="Markdown")
 
 
 bot.polling()
