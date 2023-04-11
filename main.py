@@ -4,6 +4,8 @@ import json
 
 from keys import *
 
+MAX_MESSAGE_LEN = 4096
+
 bot = telebot.TeleBot(telegram_token)
 openai.api_key = openai_api_key
 
@@ -26,10 +28,20 @@ def handle_text(user_input):
         chats[chat_id] = [
             {"role": "system", "content": "Hello"},
         ]
+    print("before asking gpt")
     response = chat(user_input.text, chats[chat_id])
+    print("after asking gpt")
     result = response.choices[0]['message']
     chats[chat_id].append(result)
-    bot.send_message(user_input.chat.id, result['content'], parse_mode="Markdown")
+
+    if len(result['content']) > 2048:
+        for x in range(0, len(result['content']), 2048):
+            bot.send_chat_action(chat_id, "typing")
+            bot.send_message(user_input.chat.id, result['content'][x:x + 2048], parse_mode="Markdown")
+    else:
+        bot.send_chat_action(chat_id, "typing")
+        bot.send_message(user_input.chat.id, result['content'], parse_mode="Markdown")
+    print("answered")
 
 
 bot.polling()
