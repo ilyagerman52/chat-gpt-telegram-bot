@@ -28,9 +28,7 @@ def handle_text(user_input):
         chats[chat_id] = [
             {"role": "system", "content": "Hello"},
         ]
-    print("before asking gpt")
     response = chat(user_input.text, chats[chat_id])
-    print("after asking gpt")
     result = response.choices[0]['message']
     chats[chat_id].append(result)
 
@@ -41,7 +39,6 @@ def handle_text(user_input):
     else:
         bot.send_chat_action(chat_id, "typing")
         bot.send_message(user_input.chat.id, result['content'], parse_mode="Markdown")
-    print("answered")
 
 
 bot.polling()
