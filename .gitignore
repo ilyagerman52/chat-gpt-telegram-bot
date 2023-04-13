@@ -4,3 +4,4 @@ venv
 .idea/
 keys.py
 __pycache__/
+profiles.json
