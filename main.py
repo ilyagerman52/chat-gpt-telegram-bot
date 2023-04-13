@@ -67,7 +67,6 @@ def callback_query(call):
         bot.send_message(chat_id, "Новый чат создан")
 
 
-
 def chat(text, messages):
     messages.append({"role": "user", "content": text})
     return openai.ChatCompletion.create(
@@ -80,10 +79,8 @@ def chat(text, messages):
 def handle_text(user_input):
     chat_id = user_input.chat.id
     bot.send_chat_action(chat_id, "typing", 10)
-    # profile = None
     with open('profiles.json', 'r') as profs:
         all_profs = json.load(profs)
-
     parse_mode = all_profs[str(chat_id)]['parse_mode']
     active_chat_id = all_profs[str(chat_id)]['active_chat_id']
     conversation = all_profs[str(chat_id)]['chats'][active_chat_id]
@@ -95,10 +92,10 @@ def handle_text(user_input):
     if len(result['content']) > 2048:
         for x in range(0, len(result['content']), 2048):
             bot.send_chat_action(chat_id, "typing")
-            bot.send_message(user_input.chat.id, result['content'][x:x + 2048], parse_mode="Markdown")
+            bot.send_message(user_input.chat.id, result['content'][x:x + 2048], parse_mode=parse_mode)
     else:
         bot.send_chat_action(chat_id, "typing")
-        bot.send_message(user_input.chat.id, result['content'], parse_mode="Markdown")
+        bot.send_message(user_input.chat.id, result['content'], parse_mode=parse_mode)
 
 
 bot.polling()
