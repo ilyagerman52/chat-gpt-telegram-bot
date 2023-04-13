@@ -12,10 +12,15 @@ openai.api_key = openai_api_key
 @bot.message_handler(commands=['start'])
 def create_profile(message):
     chat_id = message.chat.id
-    new_profile = {chat_id: {"name": "name", "parse_mode": "Markdown", "active_chat_id": 0, "max_chat_id": 0,
-                             'chats': [[{"role": "system", "content": "Hello"}]]}}  # names will be soon
+    try:
+        with open('profiles.json', 'r') as profs:
+            all_profs = json.load(profs)
+    except:
+        all_profs = dict()
+    all_profs[chat_id] = {"name": "name", "parse_mode": "Markdown", "active_chat_id": 0, "max_chat_id": 0,
+                             'chats': [[{"role": "system", "content": "Hello"}]]}
     with open('profiles.json', 'w') as profs:
-        json.dump(new_profile, profs)
+        json.dump(all_profs, profs)
     bot.send_message(chat_id, "Доброе утро! Я готов вам помочь.")
 
 
