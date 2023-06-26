@@ -21,21 +21,15 @@ class Field(Enum):
     LAST_ACTIVITY = 6  # maybe it must be in other place
 
 
-class ParseMode(Enum):
-    """
-    Class with ParseMode available values.
-    """
-    EMPTY = None
-    HTML = "HTML"
-    MARKDOWN = "Markdown"
-
-
 class UserStatus(Enum):
     """
     Class for user status.
     """
     ADMIN = 0
     USER = 1
+    BLOCKED = 2
+    VIP = 3
+    CUSTOM = 4  # maybe it will be added later
 
 
 @dataclass
@@ -54,13 +48,13 @@ class Profile:
     Class for profile of user.
     """
     user_id: int
-    username: int
-    parse_mode: ParseMode
+    username: str
+    parse_mode: str or None
     status: UserStatus
-    key: str
+    key: str or None
 
 
-def update_profile(user_id: int, field: Field, value: ParseMode) -> int:
+def update_profile(user_id: int, field: Field, value: str or None) -> int:
     """
     Update profile by user id. In main table for user updates value of one field.
 
@@ -69,11 +63,11 @@ def update_profile(user_id: int, field: Field, value: ParseMode) -> int:
     :param field: the field of profile, that must be updated
     :type field: Field
     :param value: new value of field, that must be updated
-    :type value: ParseMode
+    :type value: str or None
     :return: 0 if success else 1
     :rtype: int
     """
-    raise NotImplementedError
+    raise NotImplementedError()
 
 
 def add_profile(profile: Profile) -> int:
@@ -85,7 +79,7 @@ def add_profile(profile: Profile) -> int:
     :return: 0 if success else 1
     :rtype: int
     """
-    raise NotImplementedError
+    raise NotImplementedError()
 
 
 def get_profile(user_id: int) -> Profile:
@@ -97,21 +91,21 @@ def get_profile(user_id: int) -> Profile:
     :return: profile of user with id = user_id
     :rtype: Profile
     """
-    raise NotImplementedError
+    raise NotImplementedError()
 
 
-def add_message_chat(user_id: int, message: ChatMessage) -> int:
+def add_message_chat(user_id: int, msg: ChatMessage) -> int:
     """
     Add message to chat history for user by id.
 
     :param user_id: id of user whose chat history must be updated
     :type user_id: int
-    :param message: message content
-    :type message: ChatMessage
+    :param msg: message content
+    :type msg: ChatMessage
     :return: 0 if success else 1
     :rtype: int
     """
-    raise NotImplementedError
+    raise NotImplementedError()
 
 
 def get_chat_history(user_id: int) -> list:
@@ -122,7 +116,7 @@ def get_chat_history(user_id: int) -> list:
     :return: chat history
     :rtype: list[ChatMessage]
     """
-    raise NotImplementedError
+    raise NotImplementedError()
 
 
 def clear_chat_history(user_id: int) -> int:
@@ -134,4 +128,4 @@ def clear_chat_history(user_id: int) -> int:
     :return: 0 if success else 1
     :rtype: int
     """
-    raise NotImplementedError
+    raise NotImplementedError()
