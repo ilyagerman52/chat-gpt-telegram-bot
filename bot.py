@@ -27,7 +27,7 @@ def show_help(msg):
     bot.send_message(chat_id=msg.chat_id,
                      text="Bot acos-exam gpt3.\n\n"
                           "This bot uses gpt-3.5-turbo engine for generating responses for your messages.\n\n"
-                          "Send your response as usual message. Bot will send a response soon. Use commands:\n"
+                          "Send your request as usual message. Bot will send a response soon. Use commands:\n"
                           "/help - for call this help message;\n"
                           "/profile - to see information about your profile;\n"
                           "/edit_profile - to edit profile: change parse mode;\n"
