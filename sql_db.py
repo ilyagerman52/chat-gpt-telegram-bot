@@ -1,7 +1,8 @@
 from enum import Enum
 from dataclasses import dataclass
 import sqlite3
-from datetime import datetime
+import datetime
+import time
 
 from typing import List
 
@@ -54,32 +55,67 @@ class Profile:
     key: str or None
 
 
-def update_profile(user_id: int, field: Field, value: str or None) -> int:
-    """
-    Update profile by user id. In main table for user updates value of one field.
+class Database:
+    def __init__(self):
+        self.users_table_path = "users.sql"
+        self.chat_tables = "chats/"
+        users = sqlite3.connect(self.users_table_path)
+        users.execute("""
+            CREATE TABLE IF NOT EXISTS users(
+                user_id INT,
+                username TEXT,
+                status INT,
+                parse_mode TEXT,
+                key_ TEXT,
+                table_name TEXT
+            )
+        """)
+        users.commit()
 
-    :param user_id: id of user, which profile must be updated
-    :type user_id: int
-    :param field: the field of profile, that must be updated
-    :type field: Field
-    :param value: new value of field, that must be updated
-    :type value: str or None
-    :return: 0 if success else 1
-    :rtype: int
-    """
-    raise NotImplementedError()
+    def add_profile(self, profile: Profile):
+        """
+        Create new line in main table for new user. Fill all fields according to parameter `profile`.
 
+        :param profile: information about user
+        :type profile: Profile
+        :return: 0 if success else 1
+        :rtype: int
+        """
+        users = sqlite3.connect(self.users_table_path)
+        table_time = str(datetime.datetime.now())
+        users.cursor()
+        users.execute(f"""SELECT ({profile.user_id}, 
+                                  {profile.username},
+                                  {profile.status},
+                                  {profile.parse_mode},
+                                  {profile.key})
+                           INSERT INTO users""")
+        users.commit()
+        new_profile_history = sqlite3.connect(f'profiles/{profile.user_id}.sql')
+        new_profile_history.cursor()
+        table_name = str(profile.user_id) + table_time
+        new_profile_history.execute(f"""
+            CREATE TABLE IF NOT EXISTS {table_name}(
+                role INT,
+                text TEXT,
+                datetime TEXT
+            )
+        """)
 
-def add_profile(profile: Profile) -> int:
-    """
-    Create new line in main table for new user. Fill all fields according to parameter `profile`.
+    def update_profile(self, user_id: int, field: Field, value: str or None) -> int:
+        """
+        Update profile by user id. In main table for user updates value of one field.
 
-    :param profile: information about user
-    :type profile: Profile
-    :return: 0 if success else 1
-    :rtype: int
-    """
-    raise NotImplementedError()
+        :param user_id: id of user, which profile must be updated
+        :type user_id: int
+        :param field: the field of profile, that must be updated
+        :type field: Field
+        :param value: new value of field, that must be updated
+        :type value: str or None
+        :return: 0 if success else 1
+        :rtype: int
+        """
+        raise NotImplementedError()
 
 
 def get_profile(user_id: int) -> Profile:
@@ -105,6 +141,7 @@ def add_message_chat(user_id: int, msg: ChatMessage) -> int:
     :return: 0 if success else 1
     :rtype: int
     """
+    history_table_name =
     raise NotImplementedError()
 
 
