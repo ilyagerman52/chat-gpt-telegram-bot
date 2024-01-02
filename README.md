@@ -7,8 +7,8 @@ This bot uses gpt-3.5-turbo engine for generating responses for your messages.
 
 Send your request as usual message. Bot will send a response soon. Use commands:
 - /help - for call this help message;
-- /profile - to see information about your profile;
-- /edit_profile - to edit profile: change parse mode;
+- /profile - to see information about your profile; [unavailable now]
+- /edit_profile - to edit profile: change parse mode; [unavailable now]
 - /clear - to clear conversation history.
 
 Bot made by A.B. group. avbudkova@gmail.com
