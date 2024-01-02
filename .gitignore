@@ -5,3 +5,6 @@ venv
 keys.py
 __pycache__/
 profiles.json
+
+# databases
+database/
