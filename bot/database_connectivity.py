@@ -11,10 +11,29 @@ class DataBase:
         self.init_db()
 
     def init_db(self):
-        self.tables['profiles'] = Table('profiles', self,
-                                        schema={'uid': 'int', 'username': 'text'})
-        self.tables['history'] = Table('history', self,
-                                       schema={'uid': 'int', 'content': 'text', 'is_bot_response': 'boolean', 'dttm': 'text'})
+        self.tables['profiles'] = Table(
+            'profiles',
+            self,
+            schema={
+                'uid': 'int',
+                'username': 'text',
+                'first_name': 'text',
+                'last_name': 'text',
+                'full_name': 'text',
+                'premium_flg': 'boolean',
+            }
+        )
+        self.tables['history'] = Table(
+            'history',
+            self,
+            schema={
+                'uid': 'int',
+                'content': 'text',
+                'is_bot_response': 'boolean',
+                'dttm': 'text',
+                'message_id': 'int',
+            }
+        )
 
     def _connect(self) -> sqlite3.Connection:
         connection = sqlite3.connect(self._path)
