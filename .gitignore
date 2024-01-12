@@ -8,3 +8,6 @@ profiles.json
 
 # databases
 database/
+
+# config
+config.yml
